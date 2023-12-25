@@ -1,21 +1,27 @@
 <script setup>
+import { onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
+import { useWeatherStore } from './stores/weather';
+
+const store = useWeatherStore();
+
+onMounted(() => {
+  store.fetchWeather();
+})
 </script>
 <template>
   <header>
-    <div class="container">
-      <div class="navbar">
-        <nav>
-          <ul>
-            <li id="houses">
-              <RouterLink to="/">
-                <span class="text">Home</span>
-              </RouterLink>
-            </li>
-          </ul>
-        </nav>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container">
+        <button class="btn btn-outline-success" type="submit">Unit</button>
+        <RouterLink to="/">
+          <img src="./assets/logo.png" alt="Logo weather" width="50" height="50">
+        </RouterLink>
+        <RouterLink to="/add-city">
+          <span class="text">Add city</span>
+        </RouterLink>
       </div>
-    </div>
+    </nav>
   </header>
   <main>
     <RouterView />
