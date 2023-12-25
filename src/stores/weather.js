@@ -9,7 +9,7 @@ dayAfterTomorrow.setHours(0, 0, 0, 0);
 
 export const useWeatherStore = defineStore('weather', {
   state: () => ({
-    unitSystem: '',
+    unitSystem: 'metric',
     cities: [new City(52.3727598, 4.8936041, 'Amsterdam', 'NL')],
     loading: false,
     weatherError: false,
@@ -23,15 +23,15 @@ export const useWeatherStore = defineStore('weather', {
       this.weatherError = false
       try {
         this.cities.forEach(async city => {
-          const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&cnt=16&lon=${city.lon}&appid=3d73f7682621c007f0a32e31c44dba02`)
+          const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&cnt=16&lon=${city.lon}&units=${this.unitSystem}&appid=3d73f7682621c007f0a32e31c44dba02`)
           const cityData = response.data
           city.conditions = cityData.list.filter(item => (new Date(item.dt_txt)).getTime() < dayAfterTomorrow.getTime()).map(item => {
             return new Weather(
               item.dt_txt,
               item.weather[0].icon,
               item.weather[0].description,
-              item.temp,
-              item.rain?.['3h'] || 0
+              Math.round(item.main.temp),
+              item.pop * 100
             );
           })
         })
