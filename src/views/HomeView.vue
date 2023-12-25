@@ -1,6 +1,6 @@
 <template>
   <section v-for="city in store.cities" :key="city.lat + city.lon">
-    <CityComponent :name="city.name" :country="city.country" :conditions="city.conditions"/>
+    <CityComponent :city="city"/>
   </section>
 
 </template>

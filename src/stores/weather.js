@@ -73,6 +73,21 @@ export const useWeatherStore = defineStore('weather', {
         this.fetchWeather()
       }
       this.updateSearch('')
+    },
+    toggleUnitSystem() {
+      if (this.unitSystem === 'metric') {
+        this.unitSystem = 'imperial';
+      } else {
+        this.unitSystem = 'metric';
+      }
+      this.fetchWeather()
+    },
+    removeCity(city) {
+      const index = this.cities.indexOf(city);
+
+      if (index !== -1) {
+        this.cities.splice(index, 1);
+      }
     }
   }
 })
