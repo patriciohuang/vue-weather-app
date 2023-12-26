@@ -12,11 +12,7 @@ export const useWeatherStore = defineStore('weather', {
     unitSystem: 'metric',
     cities: [new City(52.3727598, 4.8936041, 'Amsterdam', 'NL')],
     loading: false,
-    weatherError: false,
-    searchText: '',
-    searchResults: [],
-    searching: false,
-    searchError: false
+    weatherError: false
   }),
   actions: {
     async fetchWeather() {
@@ -38,37 +34,10 @@ export const useWeatherStore = defineStore('weather', {
         });
         // Use Promise.all to wait for all API calls to complete
         await Promise.all(allCitiesPromises)
-        console.log(this.cities);
       } catch (error) {
         this.weatherError = true
-        console.error(error);
       } finally {
         this.loading = false
-      }
-    },
-    async updateSearch(searchText) {
-      this.searchError = false;
-      this.searchText = searchText;
-      if (searchText === '') {
-        this.searchResults = []
-      } else {
-        this.searching = true;
-        try {
-          const response = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${searchText}&limit=5&appid=3d73f7682621c007f0a32e31c44dba02`)
-          this.searchResults = response.data.map(item => {
-            return new City(
-              item.lat,
-              item.lon,
-              item.name,
-              item.country
-            )
-          })
-        } catch (error) {
-          this.searchError = true;
-          console.error(error);
-        } finally {
-          this.searching = false;
-        }
       }
     },
     addCity(city) {
@@ -77,7 +46,6 @@ export const useWeatherStore = defineStore('weather', {
         this.cities.push(city)
         this.fetchWeather()
       }
-      this.updateSearch('')
     },
     toggleUnitSystem() {
       if (this.unitSystem === 'metric') {
