@@ -9,18 +9,18 @@ onMounted(() => {
   store.fetchWeather();
 })
 </script>
+
 <template>
   <header>
     <nav class="navbar bg-body-tertiary">
       <div class="container">
-        <button class="btn btn-outline-secondary" :class="{ invisible: $route.path === '/add-city' }" @click="event => store.toggleUnitSystem()">
-          System:
+        <button class="btn btn-outline-secondary nav-button" :class="{ invisible: $route.path === '/add-city' }" @click="event => store.toggleUnitSystem()">
           <span class="text-capitalize">{{ store.unitSystem }}</span>
         </button>
         <RouterLink to="/">
           <img src="./assets/logo.png" alt="Logo weather" width="50" height="50">
         </RouterLink>
-        <RouterLink to="/add-city" class="btn btn-dark" :class="{ invisible: $route.path === '/add-city' }">
+        <RouterLink to="/add-city" class="btn btn-dark nav-button" :class="{ invisible: $route.path === '/add-city' }">
           <span class="text">Add city</span>
         </RouterLink>
       </div>
@@ -30,3 +30,9 @@ onMounted(() => {
     <RouterView />
   </main>
 </template>
+
+<style scoped>
+.nav-button {
+  width: 100px;
+}
+</style>

@@ -1,22 +1,41 @@
 <template>
-  <h1>Add city</h1>
-  <div class="row g-2">
-    <div class="col">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search city" aria-label="Search city" aria-describedby="cancel" v-model.trim.lazy="store.searchText" @input="event => store.updateSearch(event.target.value)">
-        <button type="button" class="btn btn-outline-secondary" id="clear" v-if="store.searchText" @click="event => store.updateSearch('')">X</button>
+  <div class="add-city-container">
+    <h1>Add City</h1>
+    <div class="search-input">
+      <div class="input-group">
+        <input
+          class="form-control border-end-0"
+          placeholder="Search city"
+          aria-label="Search city"
+          v-model.trim.lazy="store.searchText"
+          autofocus
+          @input="event => store.updateSearch(event.target.value)"
+        />
+        <button
+          type="button"
+          v-if="store.searchText"
+          @click="event => store.updateSearch('')"
+          class="btn bg-transparent border-0"
+          style="margin-left: -40px; z-index: 5;">
+          <i class="fa fa-times"></i>
+        </button>
+        <RouterLink to="/" class="btn btn-secondary" @click="event => store.updateSearch('')">
+          Cancel
+        </RouterLink>
       </div>
     </div>
-    <div class="col-auto">
-      <RouterLink to="/">
-        <button class="btn btn-secondary" type="button" id="cancel" @click="event => store.updateSearch('')">Cancel</button>
-      </RouterLink>
+    <div class="search-results">
+      <ul class="list-group">
+        <li
+          class="list-group-item list-group-item-action"
+          @click="event => {store.addCity(city); $router.push({ path: '/'})}"
+          v-for="city in store.searchResults"
+          :key="city.lat + city.lon"
+        >
+          {{ city.name }}, {{ city.country }}
+        </li>
+      </ul>
     </div>
-  </div>
-  <div>
-    <ul class="list-group">
-      <li class="list-group-item" @click="event => {store.addCity(city); $router.push({ path: '/'})}" v-for="city in store.searchResults" :key="city.lat + city.lon">{{ city.name }}, {{ city.country }}</li>
-    </ul>
   </div>
 </template>
 
@@ -24,3 +43,34 @@
 import { useWeatherStore } from '../stores/weather';
 const store = useWeatherStore();
 </script>
+
+<style scoped>
+.add-city-container {
+  max-width: 50vw;
+  margin: auto;
+  padding: 20px;
+}
+
+.search-input {
+  margin-bottom: 15px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.search-results {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.list-group-item {
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+</style>
