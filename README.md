@@ -1,5 +1,8 @@
 # vue-weather-app
 
+## Project design
+[FigJam](https://www.figma.com/file/v1PYNtWG4GTrDXhCjGGD80/Vue-wether-app?type=whiteboard&t=NtkLMmvU2RIL2Htc-1)
+
 ## Project setup
 ```
 npm install

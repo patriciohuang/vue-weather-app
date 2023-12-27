@@ -41,7 +41,7 @@ const store = useWeatherStore();
 }
 
 .city-section {
-  width: 50vw;
+  max-width: 1200px;
   margin: 10px;
   border: 1px solid #ddd;
   border-radius: 10px;
